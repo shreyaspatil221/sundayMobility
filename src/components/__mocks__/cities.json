@@ -1,0 +1,83 @@
+{
+    "location_suggestions":[
+      {
+        "id":3,
+        "name":"Mumbai",
+        "country_id":1,
+        "country_name":"India",
+        "country_flag_url":"https:\/\/b.zmtcdn.com\/images\/countries\/flags\/country_1.png",
+        "should_experiment_with":0,
+        "has_go_out_tab":0,
+        "discovery_enabled":0,
+        "has_new_ad_format":1,
+        "is_state":0,
+        "state_id":0,
+        "state_name":"",
+        "state_code":""
+      },
+      {
+        "id":63,
+        "name":"Metro Manila",
+        "country_id":162,
+        "country_name":"Philippines",
+        "country_flag_url":"https:\/\/b.zmtcdn.com\/images\/countries\/flags\/country_162.png",
+        "should_experiment_with":0,
+        "has_go_out_tab":0,
+        "discovery_enabled":0,
+        "has_new_ad_format":1,
+        "is_state":0,
+        "state_id":0,
+        "state_name":"",
+        "state_code":""
+      },
+      {
+        "id":712,
+        "name":"Muncie, IN",
+        "country_id":216,
+        "country_name":"United States",
+        "country_flag_url":"https:\/\/b.zmtcdn.com\/images\/countries\/flags\/country_216.png",
+        "should_experiment_with":0,
+        "has_go_out_tab":0,
+        "discovery_enabled":0,
+        "has_new_ad_format":0,
+        "is_state":0,
+        "state_id":83,
+        "state_name":"Indiana",
+        "state_code":"IN"
+      },
+      {
+        "id":799,
+        "name":"Muskegon, MI",
+        "country_id":216,
+        "country_name":"United States",
+        "country_flag_url":"https:\/\/b.zmtcdn.com\/images\/countries\/flags\/country_216.png",
+        "should_experiment_with":0,
+        "has_go_out_tab":0,
+        "discovery_enabled":0,
+        "has_new_ad_format":0,
+        "is_state":0,
+        "state_id":90,
+        "state_name":"Michigan",
+        "state_code":"MI"
+      },
+      {
+        "id":9304,
+        "name":"Muenster, TX",
+        "country_id":216,
+        "country_name":"United States",
+        "country_flag_url":"https:\/\/b.zmtcdn.com\/images\/countries\/flags\/country_216.png",
+        "should_experiment_with":0,
+        "has_go_out_tab":0,
+        "discovery_enabled":0,
+        "has_new_ad_format":0,
+        "is_state":0,
+        "state_id":111,
+        "state_name":"Texas",
+        "state_code":"TX"
+      }
+    ],
+    "status":"success",
+    "has_more":0,
+    "has_total":0,
+    "user_has_addresses":true
+  }
