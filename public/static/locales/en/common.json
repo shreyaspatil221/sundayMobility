@@ -5,5 +5,19 @@
     "company": "ANAHA",
     "id": "ID: ",
     "lmp": "LMP: ",
-    "edd": "EDD: "
+    "edd": "EDD: ",
+    "login": "Login",
+    "loginPageTxt": "User login and registration page",
+    "welcomeBack": "Welcome back!",
+    "loginToAccount": "Please login to your account.",
+    "registerAccount": "Register account.",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember Me",
+    "forgetPassword": "Forget password",
+    "register": "Register",
+    "mobile": "Mobile",
+    "email": "Email",
+    "tncLabel":"Terms of use. Privacy policy",
+    "accountList": "Account List"
 }

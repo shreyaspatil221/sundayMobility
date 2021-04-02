@@ -1,4 +1,23 @@
 {
-    "home": "Home Hindi",
-    "homeDesc": "This is a home page hindi"
+    "home": "Home",
+    "homeDesc": "This is a home page",
+    "changeLng": "Change Language",
+    "company": "ANAHA",
+    "id": "ID: ",
+    "lmp": "LMP: ",
+    "edd": "EDD: ",
+    "login": "Login",
+    "loginPageTxt": "User login and registration page",
+    "welcomeBack": "Welcome back!",
+    "loginToAccount": "Please login to your account.",
+    "registerAccount": "Register account.",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember Me",
+    "forgetPassword": "Forget password",
+    "register": "Register",
+    "mobile": "Mobile",
+    "email": "Email",
+    "tncLabel":"Terms of use. Privacy policy",
+    "accountList": "Account List"
 }

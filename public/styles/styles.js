@@ -12,11 +12,11 @@ export const globalStyles = (
         background: ##ffffff;
         min-height: 100%;
         font-size: 16px;
-        font-family: 'Cabin', sans-serif;
+        font-family: 'Lato', sans-serif;
         outline: none;
-        button { font-family: 'Cabin', sans-serif; padding: 0.2rem;
+        button { font-family: 'Lato', sans-serif; padding: 0.2rem;
           background: transparent; border: none; cursor: pointer;
-          :focus{ outline: none;}}
+          /* :focus{ outline: none;}} */
         h1 { margin: 0.5em 0;}
         .container { padding: 3rem 0 0 0; margin: 0 auto;}
       };
