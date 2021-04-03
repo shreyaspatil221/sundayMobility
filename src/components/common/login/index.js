@@ -71,7 +71,12 @@ const Login = (props) => {
         />
         <div css={spaceBetween}>
           <div css={rememberCheck}>
-            <input type="checkbox" name="remember" checked={user.remember} onChange={changeInput} />
+            <Input
+              type="checkbox"
+              name="remember"
+              checked={user?.remember}
+              onChange={changeInput}
+            />
             <span>{t('rememberMe')}</span>
           </div>
           <button type="button" onClick={forgetPassword} css={forgetBtn}>{t('forgetPassword')}</button>

@@ -25,7 +25,7 @@ const Input = (props) => {
   const {
     type = 'text', name = '', value = '',
     onChange, placeholder, inputError = '',
-    maxlength = 20
+    checked = false, maxlength = 20
   } = props;
   return (
     <div css={inputStyle(inputError)}>
@@ -33,6 +33,7 @@ const Input = (props) => {
         type={type}
         name={name}
         value={value}
+        checked={checked}
         onChange={onChange}
         placeholder={placeholder}
         maxLength={maxlength}

@@ -140,8 +140,10 @@ const Dashboard = () => {
   const faceBookLogin = async (response) => {
     const { name, email } = response;
     const { picture: { data: { url } } } = response;
-    setFaceBookData([name, email, url]);
-    localStorage.setItem('facebookUser', JSON.stringify([{ name, email, url }]));
+    setFaceBookData([{ name, email, url }]);
+    localStorage.setItem('facebookUser', JSON.stringify([{
+      name, email, url, all: response
+    }]));
   };
 
   const getfaceBookDataFromLocal = () => {
