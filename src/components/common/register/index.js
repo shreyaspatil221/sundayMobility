@@ -28,7 +28,6 @@ const Resigter = (props) => {
   } = props;
   const mobileChange = (e) => {
     const { value } = e.target;
-    console.log('VALUE', value);
     if (APP_REGEX.NUMBER.test(value)) { changeInput(e); }
   };
   return (

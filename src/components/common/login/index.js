@@ -80,7 +80,7 @@ const Login = (props) => {
       </form>
       <button type="button" css={registerBtn} onClick={toggleAuth}>{t('register')}</button>
       <FacebookLogin
-        appId="774977839795707"
+        appId="202713094590044"
         fields="name,email,picture"
         callback={faceBookLogin}
         autoLoad={false}

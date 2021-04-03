@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-// import { useTranslation } from '../../../../i18n';
 
 const invalid = css`
   color: red;
@@ -13,7 +12,6 @@ const inputStyle = (inputError) => css`
   input {
     margin: 1rem 0;
     border: none;
-    /* border-bottom: 0.0625rem solid #d4d4d4; */
     border-bottom: ${inputError ? '0.0625rem solid red' : '0.0625rem solid #d4d4d4'};
     display: flex;
     height: 2rem;

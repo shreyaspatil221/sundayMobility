@@ -113,9 +113,7 @@ const Dashboard = () => {
     setIsLoading(true);
     const usrs = JSON.parse(localStorage.getItem('users'));
     const rememberedUser = usrs?.filter((usr) => usr.remember);
-    console.log('rememberedUser', rememberedUser);
     rememberedUser && setUser(rememberedUser);
-    console.log('rememberedUser', rememberedUser);
     if (rememberedUser?.length) {
       setLoginSection(false); setShowList(true);
     }
@@ -140,7 +138,6 @@ const Dashboard = () => {
   };
 
   const faceBookLogin = async (response) => {
-    console.log(response);
     const { name, email } = response;
     const { picture: { data: { url } } } = response;
     setFaceBookData([name, email, url]);
