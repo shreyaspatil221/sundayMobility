@@ -1,4 +1,5 @@
 {
 	"GENERIC_ERROR": "Something went wrong",
-	"USER_NOT_FOUND": "Username/Password is wrong"
+	"USER_NOT_FOUND": "Username/Password is wrong",
+	"USER_REGISTERED": "User successfully registered"
 }

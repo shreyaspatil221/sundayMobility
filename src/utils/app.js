@@ -32,10 +32,6 @@ export const isIE = () => {
 export const isIEorEdge = () => canUseDOM && (document.documentMode || /Edge/.test(navigator.userAgent) || /Edg/.test(navigator.userAgent));
 
 export const envBaseURL = {
-  PROD_ENV: 'https://www.jio.com',
-  SIT_ENV: 'https://sit.webselfcare.jio.com',
-  PP_ENV: 'https://selfcare.jiolabs.com',
-  DEV_ENV: 'https://sit.webselfcare.jio.com'
 };
 export const canonicalBaseURL = () => (canUseDOM ? getRootURL() : envBaseURL[config.env]);
 

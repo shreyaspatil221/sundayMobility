@@ -6,9 +6,9 @@ export const APP_CONSTANTS = {
 };
 
 export const APP_REGEX = {
-  NUMBER: /^[+0-9]+$/,
+  NUMBER: /^[0-9]*$/,
   DECIMAL: /^[0-9]+([.]{1}[0-9]{2}){0,1}$/,
   EMAIL: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
   MPIN: /^[0-9]{4}$/,
-  PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+  PASSWORD: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
 };

@@ -1,12 +1,16 @@
+/* eslint-disable no-nested-ternary */
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import useLoading from '../../hooks/useLoading';
 import { useTranslation } from '../../../i18n';
-// import { zomato } from '../service';
 import ErrorToast from '../common/errorToast';
 import Loader from '../common/loader';
+import List from '../common/list';
+import Login from '../common/login';
+import Register from '../common/register';
+import { APP_REGEX } from '../../utils/app-rules';
 
 const container = css`
   padding: 0;
@@ -31,12 +35,12 @@ const heroImage = css`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 100vh;
+  min-height: 100%;
   img {
     object-fit: cover; 
     height:100%; width: 100%;
   }
-  @media screen and (max-width: 950px){
+  @media screen and (max-width: 59.375rem){
     display: none;
   }
 `;
@@ -47,11 +51,11 @@ const userSection = css`
   justify-content: center;
   color: rgb(64,64,64);
   padding: 0 5%;
-  min-height: 100vh;
+  height: 100vh;
 `;
 
 const loginWrapper = css`
-  width: 75%;
+  width: 90%;
   display: flex;
   text-align: center;
   align-items: center;
@@ -61,60 +65,6 @@ const loginWrapper = css`
     width: 100%;
     display: flex;
     flex-direction: column;
-    input {
-      margin: 1rem 0;
-      border: none;
-      border-bottom: 1px solid #d4d4d4;
-      display: flex;
-      height: 2rem;
-      padding: 0 0 0 0.5rem;
-      font-size: 1rem;
-    }
-    input[type="checkbox"]::before {
-      background: white;
-    }
-    input[type="checkbox"]:checked::after {
-      background: rgb(95,171,178);
-    }
-    /* input ::-webkit-input-placeholder 
-    ::-moz-placeholder
-    :-ms-input-placeholder
-    :-moz-placeholder {
-      font-size: 0.5rem;
-    } */
-  }
-`;
-
-const spaceBetween = css`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1rem;
-  span {margin-left: 1ch;}
-  button {font-size: 1rem;}
-`;
-
-const forgetBtn = css`
-  color: rgb(95,171,178);
-  background: white;
-`;
-
-const loginBtn = css`
-  color: white;
-  background: rgb(95,171,178);
-  font-size: 1rem;
-  border-radius: 5rem;
-  padding: 0.5rem 0;
-  margin: 3rem 0 0 0;
-`;
-
-const rememberCheck = css`
-  display: flex;
-  align-items: center;
-  input {
-    margin: 1rem 0 !important;
-    height: 1rem !important; 
-    width: 1rem; 
   }
 `;
 
@@ -130,15 +80,8 @@ const tnc = css`
   bottom: 1rem;
 `;
 
-const registerBtn = css`
-  color: rgb(95,171,178);
-  background: white;
-  margin: 1rem auto;
-  font-size: 1rem;
-  width: 50%;
-`;
-
 const loadingInitial = true;
+
 const initialUser = {
   name: '',
   mobile: '',
@@ -147,55 +90,192 @@ const initialUser = {
   remember: false
 };
 
-const listWrapper = css`
-  width: 100%;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 0px 0px 16px 0px #0000001f;
-  border-radius: 0.5rem;
-`;
-
-const userCard = css`
-  background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  padding: 1rem 0;
-  border-bottom: 0.0375rem solid #d4d4d4;
-  :last-child{ border-bottom: none;}
-`;
+const initialErr = {
+  nameErr: '',
+  mobileErr: '',
+  emailErr: '',
+  passwordErr: ''
+};
 
 const Dashboard = () => {
   const { t } = useTranslation(['common']);
   const [error, setError] = useState('');
-  // const [, setResults] = useState({});
   const [isLoading, setIsLoading] = useLoading(loadingInitial);
   const [user, setUser] = useState(initialUser);
+  const [err, setErr] = useState(initialErr);
   const [users, setUsers] = useState([]);
-  const [loginSection, setLoginSection] = useState('login');
+  const [facebookData, setFaceBookData] = useState(null);
+  const [loginSection, setLoginSection] = useState(true);
   const [showList, setShowList] = useState(false);
+  const [type, setType] = useState('error');
 
   const getUser = async () => {
     setIsLoading(true);
-    const usrs = localStorage.getItem('users');
-    setUsers(JSON.parse(usrs));
+    const usrs = JSON.parse(localStorage.getItem('users'));
+    const rememberedUser = usrs?.filter((usr) => usr.remember);
+    console.log('rememberedUser', rememberedUser);
+    rememberedUser && setUser(rememberedUser);
+    console.log('rememberedUser', rememberedUser);
+    if (rememberedUser?.length) {
+      setLoginSection(false); setShowList(true);
+    }
+    setUsers(usrs);
     setIsLoading(false);
   };
 
   useEffect(() => {
     getUser();
-    return () => {};
+    return () => { };
   }, []);
 
   useEffect(() => {
     loginSection && getUser();
-    return () => {};
+    return () => { };
   }, [loginSection]);
+
+  const forgetPassword = () => { };
+
+  const toggleList = () => {
+    setShowList((prevState) => !prevState);
+  };
+
+  const faceBookLogin = async (response) => {
+    console.log(response);
+    const { name, email } = response;
+    const { picture: { data: { url } } } = response;
+    setFaceBookData([name, email, url]);
+    localStorage.setItem('facebookUser', JSON.stringify([{ name, email, url }]));
+  };
+
+  const getfaceBookDataFromLocal = () => {
+    const getfaceBookData = localStorage.getItem('facebookUser');
+    setFaceBookData(JSON.parse(getfaceBookData));
+  };
+
+  useEffect(() => {
+    getfaceBookDataFromLocal();
+    return () => { };
+  }, []);
+
+  const toggleAuth = () => {
+    setUser(initialUser);
+    setErr(initialErr);
+    setType('error');
+    setLoginSection((prevState) => !prevState);
+  };
+
+  const goBacktoLogin = () => {
+    setUser(initialUser);
+    setLoginSection(true);
+    setShowList(false);
+  };
+
+  const validateName = () => {
+    if (!user?.name) {
+      setErr((prevState) => ({ ...prevState, nameErr: t('enterUsername') }));
+      return false;
+    } if (user?.name?.length < 2) {
+      setErr((prevState) => ({ ...prevState, nameErr: t('enterValidUser') }));
+      return false;
+    }
+    setErr((prevState) => ({ ...prevState, nameErr: '' }));
+    return true;
+  };
+
+  const validateMobile = () => {
+    if (!user?.mobile) {
+      setErr((prevState) => ({ ...prevState, mobileErr: t('enterMobile') }));
+      return false;
+    } if (user?.mobile.length < 10) {
+      setErr((prevState) => ({ ...prevState, mobileErr: t('enterValidMobile') }));
+      return false;
+    }
+    setErr((prevState) => ({ ...prevState, mobileErr: '' }));
+    return true;
+  };
+
+  const validateEmail = () => {
+    if (!user?.email) {
+      setErr((prevState) => ({ ...prevState, emailErr: t('enterEmail') }));
+      return false;
+    } if (!APP_REGEX.EMAIL.test(user?.email)) {
+      setErr((prevState) => ({ ...prevState, emailErr: t('enterValidEmail') }));
+      return false;
+    }
+    setErr((prevState) => ({ ...prevState, emailErr: '' }));
+    return true;
+  };
+
+  const validatePassword = () => {
+    if (!user?.password) {
+      setErr((prevState) => ({ ...prevState, passwordErr: t('enterPassword') }));
+      return false;
+    } if (!APP_REGEX.PASSWORD.test(user?.password)) {
+      setErr((prevState) => ({ ...prevState, passwordErr: t('enterValidPassword') }));
+      return false;
+    }
+    setErr((prevState) => ({ ...prevState, passwordErr: '' }));
+    return true;
+  };
+
+  const validateLogin = () => {
+    const isValidName = validateName();
+    const isValidPassword = validatePassword();
+    if (isValidName && isValidPassword) {
+      return true;
+    } return false;
+  };
+
+  const validateRegister = () => {
+    const isValidName = validateName();
+    const isValidMobile = validateMobile();
+    const isValidEmail = validateEmail();
+    const isValidPassword = validatePassword();
+    if (isValidName && isValidMobile && isValidEmail && isValidPassword) {
+      return true;
+    } return false;
+  };
+
+  const onRegister = (e) => {
+    e.preventDefault();
+    if (validateRegister()) {
+      const usrs = JSON.parse(localStorage.getItem('users'));
+      const clone = usrs?.length ? [...usrs] : [];
+      clone.push(user);
+      localStorage.setItem('users', JSON.stringify(clone));
+      setUser(initialUser);
+      setType('message');
+      setError('USER_REGISTERED');
+    }
+  };
+
+  const onLogin = (e) => {
+    e.preventDefault();
+    if (validateLogin()) {
+      const loginCheck = users?.some(
+        (u) => (u.name === user.name
+        && u.password === user.password)
+      );
+      if (loginCheck) {
+        setLoginSection((prevState) => !prevState);
+        const usrs = JSON.parse(localStorage.getItem('users'));
+        const rememberedUser = usrs?.map(
+          (u) => {
+            if (u.name === user.name && u.password === user.password) {
+              u.remember = user.remember;
+              return u;
+            }
+            u.remember = false;
+            return u;
+          }
+        );
+        localStorage.setItem('users', JSON.stringify(rememberedUser));
+        toggleList();
+      } else {
+        setError('USER_NOT_FOUND');
+      }
+    }
+  };
 
   const changeInput = (e) => {
     const target = e?.target;
@@ -207,48 +287,40 @@ const Dashboard = () => {
     }));
   };
 
-  const forgetPassword = () => {};
-
-  const toggleList = () => {
-    setShowList((prevState) => !prevState);
-  };
-
-  const onLogin = (e) => {
-    e.preventDefault();
-    const loginCheck = users?.some(
-      (u) => (u.name === user.name
-        && u.password === user.password)
-    );
-    if (loginCheck) {
-      setLoginSection(null);
-      toggleList();
-    } else {
-      setError('USER_NOT_FOUND');
-    }
-  };
-
-  const onRegister = (e) => {
-    e.preventDefault();
+  const logout = () => {
     const usrs = JSON.parse(localStorage.getItem('users'));
-    const clone = usrs?.length ? [...usrs] : [];
-    clone.push(user);
-    localStorage.setItem('users', JSON.stringify(clone));
-    setUser(initialUser);
+    const forgetUser = usrs?.map(
+      (u) => {
+        if (u.remember) {
+          u.remember = !u.remember;
+          return u;
+        } return u;
+      }
+    );
+    localStorage.setItem('users', JSON.stringify(forgetUser));
+    setLoginSection(true); setShowList(false);
   };
 
-  const toggleAuth = () => {
-    setUser(initialUser);
-    setLoginSection((prevState) => (prevState === 'login' ? 'register' : 'login'));
+  const loginProps = {
+    user, err, changeInput, forgetPassword, toggleAuth, faceBookLogin, onLogin
   };
 
-  const userSelection = (data) => {
-    console.log('userSelection', data);
+  const registerProps = {
+    user, err, changeInput, toggleAuth, onRegister
   };
 
   return (
     <>
-      <Loader loading={isLoading.loading} backdrop={isLoading.loading} />
-      <ErrorToast errorMsg={error} setErrorMsg={() => setError('')} width={80} />
+      <Loader
+        loading={isLoading.loading}
+        backdrop={isLoading.loading}
+      />
+      <ErrorToast
+        errorMsg={error}
+        setErrorMsg={() => setError('')}
+        width={80}
+        type={type}
+      />
       <NextSeo
         title={t('login')}
         description={t('loginPageTxt')}
@@ -256,58 +328,40 @@ const Dashboard = () => {
       <div css={container}>
         <div css={wrapper}>
           <div css={heroImage}>
-            <img src="/static/images/hero.webp" alt="hero" height="100%" width="100%" />
+            <img
+              src="/static/images/beach.jpg"
+              alt="hero"
+              height="100%"
+              width="100%"
+              loading="lazy"
+            />
           </div>
           <div css={userSection}>
             <div css={loginWrapper}>
               <div css={headerLabel}>
-                <h1>{loginSection === 'login' ? t('welcomeBack') : t('registerAccount')}</h1>
-                {loginSection === 'login' ? <h2>{t('loginToAccount')}</h2> : null}
+                {loginSection && !showList
+                  && <h1>{t('welcomeBack')}</h1>}
+                {loginSection && !showList
+                  && <h2>{t('loginToAccount')}</h2>}
+                {!loginSection && !showList
+                  && <h1>{t('registerAccount')}</h1>}
+                {!loginSection && showList
+                  && <h1>{t('Logged In')}</h1>}
               </div>
-              {loginSection === 'login' && (
-                <>
-                  <form onSubmit={onLogin}>
-                    <input type="text" name="name" value={user?.name} onChange={changeInput} placeholder={t('username')} />
-                    <input type="password" name="password" value={user?.password} onChange={changeInput} placeholder={t('password')} />
-                    <div css={spaceBetween}>
-                      <div css={rememberCheck}>
-                        <input type="checkbox" name="remember" checked={user.remember} onChange={changeInput} />
-                        <span>{t('rememberMe')}</span>
-                      </div>
-                      <button type="button" onClick={forgetPassword} css={forgetBtn}>{t('forgetPassword')}</button>
-                    </div>
-                    <button type="submit" value="Submit" css={loginBtn}>{t('login')}</button>
-                  </form>
-                  <button type="button" css={registerBtn} onClick={toggleAuth}>{t('register')}</button>
-                </>
-              ) }
-              {loginSection === 'register' && (
-                <>
-                  <form onSubmit={onRegister}>
-                    <input type="text" name="name" value={user?.name} onChange={changeInput} placeholder={t('username')} />
-                    <input type="text" name="mobile" value={user?.mobile} onChange={changeInput} placeholder={t('mobile')} />
-                    <input type="text" name="email" value={user?.email} onChange={changeInput} placeholder={t('Email')} />
-                    <input type="password" name="password" value={user?.password} onChange={changeInput} placeholder={t('password')} />
-                    <button type="submit" value="Submit" css={loginBtn}>{t('register')}</button>
-                  </form>
-                  <button type="button" css={registerBtn} onClick={toggleAuth}>{t('login')}</button>
-                </>
-              )}
+              {loginSection && !showList
+                && <Login {...loginProps} />}
+              {!loginSection && !showList
+                && <Register {...registerProps} />}
               {!loginSection && showList
-                ? (
-                  <>
-                  <h2>{t('accountList')}</h2>
-                  <div css={listWrapper}>
-                    { users?.map((user) => (
-                      <div key={user.mobile} css={userCard}>
-                        <div>{user?.name}</div>
-                        <a href={`mailto: ${user?.email}`}>{user?.email}</a>
-                      </div>
-                    ))}
-                  </div>
-                  <button type="button" css={registerBtn} onClick={toggleAuth}>{t('Back')}</button>
-                    </>
-                ) : null}
+                && (
+                  <List
+                    user={user}
+                    users={users}
+                    facebookData={facebookData}
+                    goBacktoLogin={goBacktoLogin}
+                    logout={logout}
+                  />
+                )}
             </div>
             <div css={tnc}>{t('tncLabel')}</div>
           </div>
@@ -320,16 +374,5 @@ const Dashboard = () => {
 Dashboard.getInitialProps = async () => ({
   namespacesRequired: ['common']
 });
-
-// export async function getServerSideProps() {
-//   const res = await localStorage.getItem('users');
-//   let data = [];
-//   if (res) {
-//     data = await JSON.parse(res);
-//   }
-//   return {
-//     props: { users: data }
-//   };
-// }
 
 export default Dashboard;

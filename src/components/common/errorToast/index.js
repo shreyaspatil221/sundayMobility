@@ -28,9 +28,15 @@ const flexContainer = css`
   position: relative;
 `;
 
-const style = css`
+const toastType = (type) => {
+  if (type === 'error') return '#EB0000';
+  if (type === 'message') return 'grey';
+  return '#EB0000';
+};
+
+const style = (type = 'error') => css`
   position:fixed;
-  background:#EB0000;
+  background: ${toastType(type)};
   color:#FFFFFF;
   width:90%;
   top:4.6875rem;
@@ -55,7 +61,7 @@ const size = css`
 `;
 
 const ErrorToast = ({
-  errorMsg, translatedMessage, setErrorMsg, t, dynMsg
+  errorMsg, translatedMessage, setErrorMsg, t, dynMsg, type = 'error'
 }) => {
   const errorMessage = errorMsg ? t([`error:${errorMsg}`, 'error:GENERIC_ERROR'], dynMsg != null ? { dynMsg } : null) : translatedMessage;
   const [message, setMessage] = useState(errorMessage);
@@ -65,7 +71,7 @@ const ErrorToast = ({
   }, [errorMessage]);
 
   return (
-    <Toast visible={!!errorMessage} timeout={3000} setVisible={setErrorMsg} style={style}>
+    <Toast visible={!!errorMessage} timeout={3000} setVisible={setErrorMsg} style={style(type)}>
       <>
         <div css={flexContainer}>
           <span css={size}>{message}</span>

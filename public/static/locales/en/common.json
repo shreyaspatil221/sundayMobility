@@ -19,5 +19,15 @@
     "mobile": "Mobile",
     "email": "Email",
     "tncLabel":"Terms of use. Privacy policy",
-    "accountList": "Account List"
+    "accountList": "Account List",
+    "loginFaceBook": "Login with Facebook",
+    "fromFaceBook": "Facebook User Data",
+    "enterUsername": "Enter Username",
+    "enterValidUser": "Enter name greater than 2 chars",
+    "enterMobile": "Enter Mobile",
+    "enterValidMobile": "Enter valid mobile",
+    "enterEmail": "Enter Email",
+    "enterValidEmail": "Enter valid email",
+    "enterPassword": "Enter Password",
+    "enterValidPassword": "Minimum length 8 with at least 1 number and 1 special character"
 }
