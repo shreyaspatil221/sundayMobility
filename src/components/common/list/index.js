@@ -70,11 +70,11 @@ const List = ({ user, users, facebookData, goBacktoLogin, logout }) => {
       )}
       <h2>{t('accountList')}</h2>
       <div css={[listWrapper, greyBack]}>
-          <div css={[userCard, greyBack]}>
-            <div>{t('Logged In User')}</div>
-            <div>{user?.name}</div>
-          </div>
+        <div css={[userCard, greyBack]}>
+          <div>{t('Logged In User')}</div>
+          <div>{user?.name}</div>
         </div>
+      </div>
       <button type="button" css={registerBtn} onClick={logout}>{t('Logout')}</button>
       <div css={overflow}>
         <div css={listWrapper}>
